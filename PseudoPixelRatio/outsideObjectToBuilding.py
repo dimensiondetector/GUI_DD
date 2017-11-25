@@ -21,12 +21,14 @@ firehydrant = []
 streetlight = []
 
 with open(file_object) as f:
-    for line in f:
+    for line in f:#reads each line in in the text file
         split_line = line.split()
 
         elements = []
-
+#in that line read, pick each number separated by space,
+#so object number(3), y max, y min, x min, xmax, actual_height_ofObject, actual_widthOfObject, predictedBuildingHeight
         for data in split_line:
+
             elements.append(data)
 
         dataInLine.append(elements)
@@ -42,12 +44,12 @@ with open(file_object) as f:
             yTopBuilding = obj[2]
             yLeftBuilding = obj[3]
             yRightBuilding= obj[4]
-
+            #get Object's coordinates at the border point of bounding box
             yBottomBuilding = int(yBottomBuilding)
             yTopBuilding = int(yTopBuilding)
             yLeftBuilding = int(yLeftBuilding)
             yRightBuilding = int(yRightBuilding)
-
+            #put coordinate values in a list... list name is same as object class name
             buildings.append(yBottomBuilding)
             buildings.append(yTopBuilding)
             buildings.append(yLeftBuilding)
@@ -149,9 +151,14 @@ with open(file_object) as f:
     print("\nbuilding: \n")
     print(buildings)
 
+
+#line 155 to 168 compiles but does not run because logic is not right
+# it always goes to the else statement
     topLeftPoint = False
     topRightPoint = False
-#if top left point of a car is within building, that is top of car is higher than building and if left side of car box is further than left of building box
+
+#if top left point of a car is within building, that means if top of car is higher than building bottom AND if left side of car box is further than left of building box
+#when I check with ttext file the math works but not able to fix it
     if yTopCar > yBottomBuilding and yLeftCar > yLeftBuilding:
         topLeftPoint = True
         print("topLeftPoint of car withing building")
@@ -160,43 +167,73 @@ with open(file_object) as f:
         print("topRightPoint ofcar is within building")
     else:
         print("dont use this object")
-        #i need to include something here to move on to next line
+
+
+
+    #Sections below show the calculated height of the building using each object's dimension
+
     yCarPixel = int(cars[0]) - int(cars[1])
     yBuildingPixel = int(buildings[0]) - int(buildings[1])
-    buildingMeasurement = ((yBuildingPixel / yCarPixel) * 79.2) / 12
+    buildingMeasurementCar = ((yBuildingPixel / yCarPixel) * 79.2) / 12
     print("car to building")
-    print(buildingMeasurement)
+    print(buildingMeasurementCar)
 
     yHydrantPixel = int(firehydrant[0]) - int(firehydrant[1])
     yBuildingPixel = int(buildings[0]) - int(buildings[1])
-    buildingMeasurement = ((yBuildingPixel / yHydrantPixel) * 30.5) / 12
+    buildingMeasurementHydrant = ((yBuildingPixel / yHydrantPixel) * 30.5) / 12
     print("FIREHYDRANT to building: ")
-    print(buildingMeasurement)
+    print(buildingMeasurementHydrant)
 
     yPersonPixel = int(person[0]) - int(person[1])
     yBuildingPixel = int(buildings[0]) - int(buildings[1])
-    buildingMeasurement = ((yBuildingPixel / yPersonPixel) * 66.75) / 12
+    buildingMeasurementPerson = ((yBuildingPixel / yPersonPixel) * 66.75) / 12
     print("PERSON to building: ")
-    print(buildingMeasurement)
+    print(buildingMeasurementPerson)
 
     yStreetLightPixel = int(streetlight[0]) - int(streetlight[1])
     yBuildingPixel = int(buildings[0]) - int(buildings[1])
-    buildingMeasurement = ((yBuildingPixel / yStreetLightPixel) * 300) / 12
+    buildingMeasurementLight = ((yBuildingPixel / yStreetLightPixel) * 300) / 12
     print("FIREHYDRANT to building: ")
-    print(buildingMeasurement)
+    print(buildingMeasurementLight)
 
     yStreetSignPixel = int(streetsign[0]) - int(streetsign[1])
     yBuildingPixel = int(buildings[0]) - int(buildings[1])
-    buildingMeasurement = ((yBuildingPixel / yStreetSignPixel) * 84) / 12
+    buildingMeasurementSign = ((yBuildingPixel / yStreetSignPixel) * 84) / 12
     print("FIREHYDRANT to building: ")
-    print(buildingMeasurement)
-    print("this is obj[0]: ")
+    print(buildingMeasurementSign)
+
+    print("CHECK this is obj[0]: ")
     print(obj[0] )
 
+    #I made this Measurement = [] list because when I print to text file without hardcoding this is necessary
+    Measurement = []
+    Measurement.append(3)
+    Measurement.append(buildingMeasurementCar)
+    Measurement.append(4)
+    Measurement.append(buildingMeasurementHydrant)
+    Measurement.append(5)
+    Measurement.append(buildingMeasurementPerson)
+    Measurement.append(6)
+    Measurement.append(buildingMeasurementLight)
+    Measurement.append(7)
+    Measurement.append(buildingMeasurementSign)
+    print("\n this is building measurement")
+    print(Measurement)
 
-    '''with open("Output.txt", "w") as text_file:
-    text_file.write("Purchase Amount: %s" % TotalAmount)
+    #pseudocode for outputing to textfile
+    #Step1. Print obj[0] to obj[6]
+    #step2. if obj[0] == Measurement[0]
+                #print Measurement[1] ....this is for car to building measurement
+           #if obj[0] == Measurement[2]
+                #print Measurement[3]... this  is for hydrantTobuilding Measurement
+           #continue step 2 until obj[0]==Measurement[8]
+    #Step3. print
+
+    #testing how output to file works I am not able to print multiple lines to output file without hardcoding
+    TotalAmount = 0.0
+    price = 56
+    with open("Output", "w") as text_file:
+        text_file.write("Purchase Amount: %s price %f" % (TotalAmount, price))
+
+
     #incase you want to pass multiple arguments
-    price = 33.3
-with open("Output.txt", "w") as text_file:
-    text_file.write("Purchase Amount: %s price %f" % (TotalAmount, price))'''
