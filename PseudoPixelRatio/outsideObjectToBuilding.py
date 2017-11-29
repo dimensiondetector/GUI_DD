@@ -44,7 +44,7 @@ with open(file_object) as f:
             yTopBuilding = obj[2]
             yLeftBuilding = obj[3]
             yRightBuilding= obj[4]
-            #get Object's coordinates at the border point of bounding box
+            #Get Object's coordinates at the border point of bounding box
             yBottomBuilding = int(yBottomBuilding)
             yTopBuilding = int(yTopBuilding)
             yLeftBuilding = int(yLeftBuilding)
@@ -233,7 +233,5 @@ with open(file_object) as f:
     TotalAmount = 0.0
     price = 56
     with open("Output", "w") as text_file:
-        text_file.write("Purchase Amount: %s price %f" % (TotalAmount, price))
-
-
+            text_file.write("Purchase Amount: %s price %f" % (TotalAmount, price))
     #incase you want to pass multiple arguments
